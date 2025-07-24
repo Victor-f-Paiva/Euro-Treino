@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,10 @@ public class Micro extends Cycle{
 	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "micro_id")
 	private List<Workout> workouts;
+	
+	@ManyToOne
+	@JoinColumn(name = "meso_id")
+	private Meso meso;
 	
     /**
      * Constructs a Micro with an initial date and a list of workouts.
