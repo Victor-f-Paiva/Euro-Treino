@@ -38,11 +38,10 @@ public class Set {
      * @param weight the weight used in the set
      * @param exerciseSession the parent ExerciseSession
      */
-    public Set(int order, int reps, double weight, ExerciseSession exerciseSession) {
+    public Set(int order, int reps, double weight) {
         this.order = order;
         this.reps = reps;
         this.weight = weight;
-        this.exerciseSession = exerciseSession;
     }
 	
     /**

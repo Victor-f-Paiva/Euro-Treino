@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +38,9 @@ public class Meso extends Cycle{
      */
 	@OneToMany(mappedBy = "meso", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Micro> microCycles;
+	
+	@ManyToOne @JoinColumn(name= "macro_id")
+	private Macro macro;
 
     /**
      * Constructs a Meso with an initial date and a list of microCycles.
