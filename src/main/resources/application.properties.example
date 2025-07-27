@@ -1,5 +1,6 @@
 spring.application.name=eurotreino
 
+spring.datasource.url=jdbc:postgresql://localhost:5432/yourDBname
 spring.datasource.username=username
 spring.datasource.password=your_password
 spring.datasource.driver-class-name=org.postgresql.Driver

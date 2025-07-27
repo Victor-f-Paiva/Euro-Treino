@@ -60,23 +60,10 @@ Below is the current UML diagram representing the core domain of the API:
 
 ---
 
-## ✅ Key Learnings
-
-- Best practices for entity modeling in Java
-- Differences between entities, enums, and DTOs
-- Practical usage of JPA and Hibernate with Spring Boot
-- How to structure a modular, maintainable backend API
-- The importance of modeling the domain before coding
-
-
----
-
 ## 🛠️ Next Steps
 
 - [ ] Create CRUD endpoints for all main entities
 - [ ] Add DTOs and mappers to separate concerns
-- [ ] Implement unit and integration tests
-- [ ] Set up Swagger for API documentation
 
 ---
 
@@ -86,7 +73,3 @@ If you'd like to learn more about this project or collaborate with me:
 
 - GitHub: [Victor-f-Paiva](https://github.com/Victor-f-Paiva)
 - LinkedIn: [Victor Paiva](https://www.linkedin.com/in/victor-paiva-b4392ab7/)
-
----
-
-> 💬 *This project is part of my career transition into backend development. Documenting my progress helps me reflect, improve, and demonstrate my growth to opportunities.*

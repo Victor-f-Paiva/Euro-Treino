@@ -88,3 +88,4 @@ Thumbs.db
 
 # properties with DB data
 application.properties
+src/test/resources/application-test.properties
