@@ -1,4 +1,4 @@
-package com.paiva.eurotreino.entity;
+package com.paiva.eurotreino.model;
 
 import java.time.LocalDate;
 

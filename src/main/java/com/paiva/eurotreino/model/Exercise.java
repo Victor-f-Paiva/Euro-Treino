@@ -1,4 +1,4 @@
-package com.paiva.eurotreino.entity;
+package com.paiva.eurotreino.model;
 
 import com.paiva.eurotreino.enums.MuscularGroup;
 
