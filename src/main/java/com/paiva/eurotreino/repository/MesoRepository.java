@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.Meso;
+import com.paiva.eurotreino.model.Meso;
 
 /**
  * Repository interface for {@link Meso} entities.

@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.paiva.eurotreino.model.Macro;
+import com.paiva.eurotreino.model.Meso;
+
 class MacroTest {
 
 	@Test

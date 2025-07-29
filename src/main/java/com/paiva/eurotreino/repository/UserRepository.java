@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.User;
+import com.paiva.eurotreino.model.User;
 
 /**
  * Repository interface for {@link User} entities.

@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.paiva.eurotreino.entity.Exercise;
-import com.paiva.eurotreino.entity.ExerciseSession;
-import com.paiva.eurotreino.entity.Macro;
-import com.paiva.eurotreino.entity.Meso;
-import com.paiva.eurotreino.entity.Micro;
-import com.paiva.eurotreino.entity.Set;
-import com.paiva.eurotreino.entity.User;
-import com.paiva.eurotreino.entity.Workout;
 import com.paiva.eurotreino.enums.MuscularGroup;
+import com.paiva.eurotreino.model.Exercise;
+import com.paiva.eurotreino.model.ExerciseSession;
+import com.paiva.eurotreino.model.Macro;
+import com.paiva.eurotreino.model.Meso;
+import com.paiva.eurotreino.model.Micro;
+import com.paiva.eurotreino.model.Set;
+import com.paiva.eurotreino.model.User;
+import com.paiva.eurotreino.model.Workout;
 
 @DataJpaTest
 @ActiveProfiles("test")

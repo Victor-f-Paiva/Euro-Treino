@@ -8,6 +8,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.paiva.eurotreino.enums.MuscularGroup;
+import com.paiva.eurotreino.model.Exercise;
+import com.paiva.eurotreino.model.ExerciseSession;
+import com.paiva.eurotreino.model.Macro;
+import com.paiva.eurotreino.model.Meso;
+import com.paiva.eurotreino.model.Micro;
+import com.paiva.eurotreino.model.Set;
+import com.paiva.eurotreino.model.User;
+import com.paiva.eurotreino.model.Workout;
 
 class UserTest {
 

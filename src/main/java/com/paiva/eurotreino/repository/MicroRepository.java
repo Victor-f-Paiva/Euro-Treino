@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.Micro;
+import com.paiva.eurotreino.model.Micro;
 
 /**
  * Repository interface for {@link Micro} entities.

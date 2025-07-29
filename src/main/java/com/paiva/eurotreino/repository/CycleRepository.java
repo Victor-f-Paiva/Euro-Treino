@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.Cycle;
+import com.paiva.eurotreino.model.Cycle;
 
 /**
  * Repository interface for {@link Cycle} entities.

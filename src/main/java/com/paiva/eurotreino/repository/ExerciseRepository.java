@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.Exercise;
+import com.paiva.eurotreino.model.Exercise;
 
 /**
  * Repository interface for {@link Exercise} entities.

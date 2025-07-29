@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import com.paiva.eurotreino.enums.MuscularGroup;
+import com.paiva.eurotreino.model.Meso;
+import com.paiva.eurotreino.model.Micro;
 
 class MesoTest2 {
 	

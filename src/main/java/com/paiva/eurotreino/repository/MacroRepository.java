@@ -2,7 +2,7 @@ package com.paiva.eurotreino.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.paiva.eurotreino.entity.Macro;
+import com.paiva.eurotreino.model.Macro;
 
 /**
  * Repository interface for {@link Macro} entities.
