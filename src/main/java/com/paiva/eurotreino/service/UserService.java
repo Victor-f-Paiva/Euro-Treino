@@ -2,12 +2,17 @@ package com.paiva.eurotreino.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.paiva.eurotreino.exception.NotFoundException;
 import com.paiva.eurotreino.model.User;
 import com.paiva.eurotreino.repository.UserRepository;
 
+@Service
 public class UserService {
 
+    @Autowired
     private UserRepository userRepo;
 
     public List<User> findAll(){
