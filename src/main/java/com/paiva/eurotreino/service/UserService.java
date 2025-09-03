@@ -43,7 +43,7 @@ public class UserService {
             User deletUser = findById(id);
             userRepo.delete(deletUser);
         } catch(RuntimeException exception){
-            throw new NotFoundException("User ID \"+id+\" not found. Can't delete.");
+            throw new NotFoundException("User ID "+id+" not found. Can't delete.");
         }
     }
 }
