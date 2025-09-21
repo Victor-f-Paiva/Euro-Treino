@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.paiva.eurotreino.model.Workout;
 import com.paiva.eurotreino.service.TrainingService;
@@ -20,9 +21,15 @@ public class TrainingController {
     private TrainingService trainingService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity<Void> addWorkout(@PathVariable Long userId, @RequestBody Workout workout){
+    public ResponseEntity<String> addWorkout(@PathVariable Long userId, @RequestBody Workout workout){
         trainingService.addWorkout(userId, workout);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.created(
+            UriComponentsBuilder
+            .fromPath("/{id}")
+            .buildAndExpand(workout.getId())
+            .toUri()
+        )
+        .body("Treino criado com sucesso");
     }
 
 }
