@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -110,4 +111,61 @@ class UserServiceTest {
 
         verify(userRepository, times(1)).delete(user1);
     }
+
+        @Test
+    void testVisualizeWorkoutSuccess() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
+
+        Workout workout = userService.visualizeWorkout(1L);
+
+        assertThat(workout.getName()).isEqualTo("Peito e triceps");
+        assertThat(workout.getExercises()).hasSize(2);
+    }
+
+    @Test
+    void testVisualizeWorkoutNoMacro() {
+        User userWithoutMacro = new User("Sem Macro", "macro@email.com", List.of());
+        userWithoutMacro.setId(2L);
+
+        when(userRepository.findById(2L)).thenReturn(Optional.of(userWithoutMacro));
+
+        assertThrows(NotFoundException.class, () -> userService.visualizeWorkout(2L));
+    }
+
+    @Test
+    void testVisualizeWorkoutNoMeso() {
+        User userWithoutMeso = new User("Sem Meso", "meso@email.com",
+                List.of(new Macro(LocalDate.now(), List.of())));
+        userWithoutMeso.setId(3L);
+
+        when(userRepository.findById(3L)).thenReturn(Optional.of(userWithoutMeso));
+
+        assertThrows(NotFoundException.class, () -> userService.visualizeWorkout(3L));
+    }
+
+    @Test
+    void testVisualizeWorkoutNoMicro() {
+        Meso mesoEmpty = new Meso(LocalDate.now(), List.of());
+        User userWithoutMicro = new User("Sem Micro", "micro@email.com",
+                List.of(new Macro(LocalDate.now(), List.of(mesoEmpty))));
+        userWithoutMicro.setId(4L);
+
+        when(userRepository.findById(4L)).thenReturn(Optional.of(userWithoutMicro));
+
+        assertThrows(NotFoundException.class, () -> userService.visualizeWorkout(4L));
+    }
+
+    @Test
+    void testVisualizeWorkoutNoWorkout() {
+        Micro microEmpty = new Micro(LocalDate.now(), List.of());
+        Meso meso = new Meso(LocalDate.now(), List.of(microEmpty));
+        User userWithoutWorkout = new User("Sem Workout", "workout@email.com",
+                List.of(new Macro(LocalDate.now(), List.of(meso))));
+        userWithoutWorkout.setId(5L);
+
+        when(userRepository.findById(5L)).thenReturn(Optional.of(userWithoutWorkout));
+
+        assertThrows(NotFoundException.class, () -> userService.visualizeWorkout(5L));
+    }
+
 }
