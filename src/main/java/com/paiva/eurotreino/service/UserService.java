@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paiva.eurotreino.exception.NotFoundException;
+import com.paiva.eurotreino.model.Macro;
+import com.paiva.eurotreino.model.Meso;
+import com.paiva.eurotreino.model.Micro;
 import com.paiva.eurotreino.model.User;
+import com.paiva.eurotreino.model.Workout;
 import com.paiva.eurotreino.repository.UserRepository;
 
 @Service
@@ -46,4 +50,29 @@ public class UserService {
             throw new NotFoundException("User ID "+id+" not found. Can't delete.");
         }
     }
+
+    public Workout visualizeWorkout(Long id){
+        User user = findById(id);
+        if (user.getMacroCycles().isEmpty()){
+            throw new NotFoundException("User "+ id + " has no Macro found.");
+        }
+
+        Macro macro = user.getMacroCycles().getLast();
+        if (macro.getMesoCycles().isEmpty()){
+            throw new NotFoundException("User "+ id + " has no Meso found.");
+        }
+
+        Meso meso = macro.getMesoCycles().getLast();
+        if (meso.getMicroCycles().isEmpty()){
+            throw new NotFoundException("User "+ id + " has no Micro found.");
+        }
+
+        Micro micro = meso.getMicroCycles().getLast();
+        if (micro.getWorkouts().isEmpty()){
+            throw new NotFoundException("User "+ id + " has no workout found.");
+        }
+
+        return micro.getWorkouts().getLast();
+    }
+    
 }
