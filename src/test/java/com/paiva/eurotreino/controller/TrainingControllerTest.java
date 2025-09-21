@@ -23,7 +23,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TrainingController.class)
@@ -46,16 +46,19 @@ class TrainingControllerTest {
         Set set1 = new Set(1, 10, 50);
         ExerciseSession session = new ExerciseSession(exercise, List.of(set1));
         workout = new Workout("Treino Peito e Tríceps", List.of(session));
+        workout.setId(1L);
     }
 
     @Test
     void testAddWorkoutSuccess() throws Exception {
         Mockito.doNothing().when(trainingService).addWorkout(eq(1L), any(Workout.class));
 
-        mockMvc.perform(put("/training/1")
+        mockMvc.perform(post("/training/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(workout)))
-                .andExpect(status().isNoContent()); // agora é 204
+                .andExpect(status().isCreated()) // agora é 201
+                .andExpect(header().string("Location", "/" + workout.getId()))
+                .andExpect(content().string("Treino criado com sucesso"));
     }
 
     @Test
@@ -63,7 +66,7 @@ class TrainingControllerTest {
         Mockito.doThrow(new NotFoundException("User not found. ID 99"))
                 .when(trainingService).addWorkout(eq(99L), any(Workout.class));
 
-        mockMvc.perform(put("/training/99")
+        mockMvc.perform(post("/training/99")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(workout)))
                 .andExpect(status().isNotFound())
