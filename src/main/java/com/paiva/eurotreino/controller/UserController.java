@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.paiva.eurotreino.model.User;
+import com.paiva.eurotreino.model.Workout;
 import com.paiva.eurotreino.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -59,6 +60,11 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/workout/{id}")
+    public ResponseEntity<Workout> visualizeWorkout(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.visualizeWorkout(id));
     }
     
 }
