@@ -1,6 +1,8 @@
 package com.paiva.eurotreino.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +61,33 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
+        userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/workout/{id}")
     public ResponseEntity<Workout> visualizeWorkout(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.visualizeWorkout(id));
+    }
+
+    @GetMapping("/getVolume/{id}")
+    public ResponseEntity<Map<String, Double>> getWorkoutVolume(@PathVariable Long id){
+        User userObj = userService.findById(id);
+
+        List<Workout> listOfWorkouts = userObj.getMacroCycles().getLast()
+            .getMesoCycles().getLast()
+            .getMicroCycles().getLast()
+            .getWorkouts();
+
+        Map<String, Double> listOfWorkoutVolume = new HashMap<>();
+        for (Workout workout : listOfWorkouts){
+            listOfWorkoutVolume.put(
+                workout.getName(), 
+                userService.getWorkoutVolume(workout));
+        }
+
+        return ResponseEntity.ok().body(listOfWorkoutVolume);
+
     }
     
 }
