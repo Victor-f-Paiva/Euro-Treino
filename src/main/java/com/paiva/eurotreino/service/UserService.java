@@ -74,5 +74,9 @@ public class UserService {
 
         return micro.getWorkouts().getLast();
     }
+
+    public double getWorkoutVolume(Workout workout){
+        return workout.getTotalVolume();
+    }
     
 }
