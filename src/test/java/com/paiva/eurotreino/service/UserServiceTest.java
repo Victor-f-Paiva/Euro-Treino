@@ -168,4 +168,16 @@ class UserServiceTest {
         assertThrows(NotFoundException.class, () -> userService.visualizeWorkout(5L));
     }
 
+    @Test
+    void testGetWorkoutVolume() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
+
+        Workout workout = userService.visualizeWorkout(1L);
+
+        double volume = userService.getWorkoutVolume(workout);
+
+        // 3 séries de 10x50 (1500) + 3 séries de 10x40 (1200) = 2700
+        assertThat(volume).isEqualTo(2700);
+    }
+
 }
