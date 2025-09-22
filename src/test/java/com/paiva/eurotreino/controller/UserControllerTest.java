@@ -40,6 +40,7 @@ class UserControllerTest {
 
     private User user1;
     private Workout treinoA;
+    private Workout treinoB;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +49,12 @@ class UserControllerTest {
         ExerciseSession supinoRetoW = new ExerciseSession(supinoReto, List.of(set1SR));
         treinoA = new Workout("Peito e triceps", new ArrayList<>(List.of(supinoRetoW)));
 
-        Micro micro1 = new Micro(LocalDate.now(), List.of(treinoA));
+        Exercise remadaAberta = new Exercise("Remada aberta", MuscularGroup.BACK, MuscularGroup.BICEPS);
+        Set set1RA = new Set(1, 12, 40);
+        ExerciseSession remadaAbertaW = new ExerciseSession(remadaAberta, List.of(set1RA));
+        treinoB = new Workout("Dorsal e biceps", new ArrayList<>(List.of(remadaAbertaW)));
+
+        Micro micro1 = new Micro(LocalDate.now(), List.of(treinoA, treinoB));
         Meso meso1 = new Meso(LocalDate.now(), List.of(micro1));
         Macro macro1 = new Macro(LocalDate.now(), List.of(meso1));
 
@@ -140,5 +146,17 @@ class UserControllerTest {
 
         mockMvc.perform(get("/users/workout/99"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetWorkoutVolume() throws Exception {
+        when(userService.findById(1L)).thenReturn(user1);
+        when(userService.getWorkoutVolume(treinoA)).thenReturn(500.0);
+        when(userService.getWorkoutVolume(treinoB)).thenReturn(480.0);
+
+        mockMvc.perform(get("/users/getVolume/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.['Peito e triceps']").value(500.0))
+                .andExpect(jsonPath("$.['Dorsal e biceps']").value(480.0));
     }
 }
