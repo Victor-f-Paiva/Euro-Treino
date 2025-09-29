@@ -3,11 +3,11 @@ package com.paiva.eurotreino.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.paiva.eurotreino.exception.NotFoundException;
 import com.paiva.eurotreino.model.Macro;
 import com.paiva.eurotreino.model.Meso;
 import com.paiva.eurotreino.model.Micro;
@@ -22,11 +22,15 @@ public class TrainingService {
     private UserRepository userRepo;
 
     public Macro getOrCreateCurrentMacro(Long userId){
-        Optional<User> user = userRepo.findById(userId);
-        List<Macro> listOfMacro = user.get().getMacroCycles();
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NotFoundException("User " + userId + " not found"));
+
+        List<Macro> listOfMacro = user.getMacroCycles();
+
         if (listOfMacro.isEmpty()){
             Macro macro = new Macro(LocalDate.now(), new ArrayList<Meso>());
-            user.get().getMacroCycles().add(macro);
+            user.addMacro(macro);
+            userRepo.save(user);
         }
         return listOfMacro.getLast();
     }
@@ -35,7 +39,7 @@ public class TrainingService {
         List<Meso> listOfMesos = macro.getMesoCycles();
         if (listOfMesos.isEmpty()){
             Meso meso = new Meso(LocalDate.now(), new ArrayList<Micro>());
-            listOfMesos.add(meso);
+            macro.addMeso(meso);
         }
         return listOfMesos.getLast();
     }
@@ -44,16 +48,21 @@ public class TrainingService {
         List<Micro> listOfMicros = meso.getMicroCycles();
         if (listOfMicros.isEmpty()){
             Micro micro = new Micro(LocalDate.now(), new ArrayList<Workout>());
-            listOfMicros.add(micro);
+            meso.addMicro(micro);
         }
         return listOfMicros.getLast();
     }
 
     public void addWorkout (Long userId, Workout workout){
+        User userObj = userRepo.findById(userId)
+            .orElseThrow(() -> new NotFoundException("User " + userId + " not found"));
+
         Macro macro = getOrCreateCurrentMacro(userId);
         Meso meso = getOrCreateCurrentMeso(macro);
         Micro micro = getOrCreateCurrentMicro(meso);
-        micro.getWorkouts().add(workout);
+        micro.addWorkout(workout);
+
+        userRepo.save(userObj);
     }
 
 }
