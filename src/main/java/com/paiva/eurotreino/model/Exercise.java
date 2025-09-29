@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +31,10 @@ public class Exercise {
 	@Enumerated(EnumType.STRING)
 	private MuscularGroup secondaryGroup;
 	
+	@ManyToOne
+	@JoinColumn(name = "exercise_session_id")
+	private ExerciseSession exerciseSession;
+
 	/**
 	 * Default constructor required by JPA.
 	 */
