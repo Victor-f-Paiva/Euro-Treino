@@ -72,7 +72,10 @@ public class UserService {
             throw new NotFoundException("User "+ id + " has no workout found.");
         }
 
-        return micro.getWorkouts().getLast();
+        return user.getMacroCycles().getLast()
+                .getMesoCycles().getLast()
+                .getMicroCycles().getLast()
+                .getWorkouts().getLast();
     }
 
     public double getWorkoutVolume(Workout workout){
