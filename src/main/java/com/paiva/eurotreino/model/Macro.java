@@ -3,6 +3,8 @@ package com.paiva.eurotreino.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,7 +44,9 @@ public class Macro extends Cycle{
 	@OneToMany(mappedBy = "macro", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Meso> mesoCycles;
 	
-	@ManyToOne @JoinColumn(name = "user_id")
+	@ManyToOne 
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
 	private User user;
 	
     /**
@@ -56,4 +60,8 @@ public class Macro extends Cycle{
 		this.mesoCycles = mesoCycles;
 	}
 
+    public void addMeso(Meso meso){
+        this.mesoCycles.add(meso);
+        meso.setMacro(this);
+    }
 }

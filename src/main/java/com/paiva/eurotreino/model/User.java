@@ -69,4 +69,9 @@ public class User {
 		this.macroCycles = macroCycles;
 	}
 
+    public void addMacro(Macro macro){
+        this.macroCycles.add(macro);
+        macro.setUser(this);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.paiva.eurotreino.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.paiva.eurotreino.enums.MuscularGroup;
 
 import jakarta.persistence.CascadeType;
@@ -60,6 +61,7 @@ public class Micro extends Cycle{
 	
 	@ManyToOne
 	@JoinColumn(name = "meso_id")
+    @JsonIgnore
 	private Meso meso;
 	
     /**
@@ -72,24 +74,10 @@ public class Micro extends Cycle{
 		super(initialDate);
 		this.workouts = workouts;
 	}
-	
-	/**
-     * Calculates the total training volume for a specific muscular group
-     * across all workouts and exercises in this microcycle.
-     * 
-     * The volume is the sum of all (reps × weight) from sets of exercises
-     * where the given muscular group is either primary or secondary.
-     * 
-     * @param group the targeted muscular group
-     * @return the total volume for the specified muscular group
-     */
-	public double getGroupVolume(MuscularGroup group) {
-		return workouts.stream()
-				.flatMap(w -> w.getExercises().stream())
-				.filter(ex -> ex.getExercise().getPrimaryGroup().equals(group)
-						|| ex.getExercise().getSecondaryGroup().equals(group))
-				.mapToDouble(n -> n.getTotalVolume())
-				.sum();
-	}
+
+    public void addWorkout(Workout workout){
+        this.workouts.add(workout);
+        workout.setMicro(this);
+    }
 
 }
