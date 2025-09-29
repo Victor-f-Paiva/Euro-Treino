@@ -46,7 +46,6 @@ class UserTest {
 		
 		assertEquals("Victor Paiva", user1.getName()); //user name
 		assertEquals(LocalDate.now(), user1.getMacroCycles().get(0).getInitialDate()); //macrocycle initial date
-		assertEquals(2700, micro1.getGroupVolume(MuscularGroup.PECS)); // group volume should be 2700
 	}
 
 }

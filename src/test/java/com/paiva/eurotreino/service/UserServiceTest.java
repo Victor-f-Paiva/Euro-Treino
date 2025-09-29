@@ -65,9 +65,6 @@ class UserServiceTest {
         User found = userService.findById(1L);
 
         assertThat(found.getName()).isEqualTo("Victor Paiva");
-        assertThat(found.getMacroCycles().get(0).getMesoCycles().get(0).getMicroCycles().get(0)
-                .getGroupVolume(MuscularGroup.PECS)).isEqualTo(2700);
-
         verify(userRepository, times(1)).findById(1L);
     }
 

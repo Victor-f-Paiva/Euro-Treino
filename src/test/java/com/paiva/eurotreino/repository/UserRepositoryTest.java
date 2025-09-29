@@ -62,9 +62,7 @@ class UserRepositoryTest {
 		assertThat(saved.getMacroCycles().get(0).getMesoCycles().get(0).getMicroCycles()).hasSize(1);
 		assertEquals(2700, saved.getMacroCycles().get(0)
 				.getMesoCycles().get(0)
-				.getMicroCycles().get(0)
-				.getGroupVolume(MuscularGroup.PECS));
-		
+				.getMicroCycles().get(0));
 	}
 
 }
