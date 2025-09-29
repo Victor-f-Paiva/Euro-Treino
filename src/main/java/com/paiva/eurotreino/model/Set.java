@@ -1,5 +1,7 @@
 package com.paiva.eurotreino.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +32,7 @@ public class Set {
 	
 	@ManyToOne
 	@JoinColumn(name = "exercise_session_id")
+    @JsonIgnore
 	private ExerciseSession exerciseSession;
 	
 	   /**
