@@ -1,6 +1,6 @@
 # Project Name: EuroTreino API
 
-A RESTful API built with Java and Spring Boot to manage periodized workout routines. The focus is on performance, clarity, and backend best practices.
+A RESTful API built with Java and Spring Boot to create and manage periodized workout routines. The focus is on performance, clarity, and backend best practices.
 
 ---
 
@@ -19,6 +19,7 @@ The goal of this project is to develop an API to register workouts, training cyc
 - JPA / Hibernate
 - Lombok
 - JUNIT
+- Mockito
 
 ---
 
@@ -27,21 +28,7 @@ The goal of this project is to develop an API to register workouts, training cyc
 Below is the current UML diagram representing the core domain of the API:
 
 ![UML Diagram](./docs/uml-eurotreino.png)
-
----
-
-## 🧱 Development Progress
-
-| Milestone                                | Description / Challenge                                                                                                                                        | Solution or Lesson Learned                                                                                                                                                                                                                                                                                                            |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Initial project setup                    | Created the UML diagram, the PostgreSQL database, defined the internal package structure, configured `application.properties`, and set up `.gitignore`         | The UML structure was initially sketched on paper, then recreated using PlantUML. The database was created using pgAdmin4. The package structure was defined in Eclipse IDE. Sensitive credentials were moved to an `application.properties.example` file and excluded using `.gitignore`, along with unnecessary files.              |
-| Entity modeling                          | Created entities `MuscularGroup`, `Exercise`, and `Cycle` to represent the core training logic                                                                 | Used `@Enumerated(EnumType.STRING)` for better database readability, based on community best practices and documentation recommendations.                                                                                                                                                                                             |
-| Modeling `Workout` and `Micro`           | Faced challenges using `@OneToMany` and `@ManyToOne` annotations, especially for managing sets, reps, and weight lifted to calculate training volume correctly | After studying official documentation, the entity mapping issues were resolved. To properly handle training data, the UML diagram was updated and two new entities were added: `Set` (storing order, reps, and weight) and `ExerciseSession` (containing the exercise and its list of sets, including the method `getTotalVolume()`). |
-| Understanding Set <-> ExerciseSession    | Understanding why the `Set` class needed a `@OneToMany List<ExerciseSession> exercises` relationship                                                           | This bidirectional mapping ensures that it's possible to identify which sessions use a particular set, which is useful for tracking training history or safely removing entities while preserving consistency.                                                                                                                        |
-| Unit test for `getHistoricGroupVolume()` | Writing a unit test for the method in the `Meso` class that returns training volume for a specific muscle group across all `Micro` cycles                      | First, the JUnit 5 dependency was added to the project. Then, the test skeleton was implemented using mocks to simulate related objects (like `Micro`) and validate the expected result.                                                                                                                                              |
-| Learning JUnit 5 basics                  | Learning how to write and run tests using JUnit, creating a test skeleton, and understanding the red (fail) and green (pass) feedback cycle                    | Used the standard test structure: the `@Test` annotation, `assertEquals`, and created real or mock objects to validate expected behavior. This helped confirm the correctness of key business logic.                                                                                                                                  |
-| Connecting Micro <-> Meso                | Added a constructor and annotated `@ManyToOne` in the `Micro` class to link it to the `Meso` class                                                             | This allowed the periodization structure to be properly represented in the database, and made the relationship navigable in the code, enabling each `Micro` to reference its corresponding `Meso` instance.                                                                                                                           |
-| Fianl Entity modeling and Unit testing for Macro and User classes  | Created Macro and User classes, unit tests for the `Macro` and `User` classes to verify constructors and getter methods.                         | Constructors and basic getters were tested successfully using JUnit. Confirmed that `getName()` from `User`, `getInitialDate()` from `Macro`, and `getGroupVolume(group)` from `Micro` all return the expected values. Helped validate domain logic without relying on persistence.                                |
+                               |
 
 
 ---
@@ -58,15 +45,30 @@ Below is the current UML diagram representing the core domain of the API:
 - Writing a unit test for the method `getHistoricGroupVolume(MuscularGroup group)` in the `Meso` class
 - Added the `@ManyToOne` constructor in the `Micro` class, establishing the correct relationship between `Micro` and `Meso`
 
+- First time creating Global Exception Handling with hierarchy.
+- Understanding the link between `AppException`, `NotFoundException`, `ErrorResponse`, and `GlobalExceptionHandler`.
+- Understanding how `GlobalExceptionHandler` and Logger work together when exceptions are thrown from a Service class.
+
+- Refactoring the `MuscularGroup` enum to avoid database breaks by assigning explicit integer values to each constant — ensuring DB consistency and flexibility for future features.
+
+- Refactoring the service layer logic to simplify responsibilities. Created only `UserService` and `TrainingService`, which automatically handle the creation of `Macro`, `Meso`, and `Micro` when adding a new `Workout` to a user.
+
+- Implementing URI building best practices using `UriComponentsBuilder.fromPath().buildAndExpand().toUri()` to generate response locations dynamically.
+
+- Requested AI assistance to generate an initial list of exercises for database seeding.
+
+- Learned how to initialize the database by creating a `config` package with a DataLoader class to populate the initial data at application startup.
+
+- Adjusted HTTP method in `TrainingController` from `PUT` to `POST` to correctly represent resource creation semantics.
+
+- Added dependency injection in `TrainingService` using the `@Autowired` annotation to improve testability and follow Spring best practices.
+
+- Changed HTTP response of `addWorkout` from `NO_CONTENT` to `CREATED` with a message body ("Treino criado com sucesso") to provide better feedback to the client.
+
+- Added new endpoints to visualize workouts and calculate total workout volume.
+
+- Fixed persistence issues caused by unidirectional relationships. The database was not saving data on both sides, so created helper methods (`addMacro`, `addMeso`, `addMicro`, `addWorkout`) to ensure associations are handled consistently and persisted correctly.
 ---
-
-## 🛠️ Next Steps
-
-- [ ] Create CRUD endpoints for all main entities
-- [ ] Add DTOs and mappers to separate concerns
-
----
-
 ## 🤝 Contact
 
 If you'd like to learn more about this project or collaborate with me:
